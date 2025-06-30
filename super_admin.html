@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div class="flex min-h-screen">
+    <aside class="w-64 bg-gray-800 text-white flex-shrink-0">
+        <div class="p-4 text-2xl font-bold">Admin</div>
+        <nav>
+            <ul class="space-y-1" id="sidebar">
+                <li><button data-section="dashboard" class="w-full text-left px-4 py-2 hover:bg-gray-700">Dashboard</button></li>
+                <li><button data-section="tools" class="w-full text-left px-4 py-2 hover:bg-gray-700">Tools</button></li>
+                <li><button data-section="companies" class="w-full text-left px-4 py-2 hover:bg-gray-700">Companies</button></li>
+                <li>
+                    <div class="px-4 py-2 font-semibold">Outlet Hub</div>
+                    <ul class="ml-4 space-y-1">
+                        <li><button data-section="addOutlet" class="w-full text-left px-4 py-2 hover:bg-gray-700">Add Outlet</button></li>
+                        <li><button data-section="listOutlet" class="w-full text-left px-4 py-2 hover:bg-gray-700">List Outlet</button></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="px-4 py-2 font-semibold">Other</div>
+                    <ul class="ml-4 space-y-1">
+                        <li><button data-section="profile" class="w-full text-left px-4 py-2 hover:bg-gray-700">Profile Information</button></li>
+                        <li><button data-section="changePassword" class="w-full text-left px-4 py-2 hover:bg-gray-700">Change Password</button></li>
+                        <li><button data-section="logout" class="w-full text-left px-4 py-2 hover:bg-gray-700">Logout</button></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="flex-1 p-6 space-y-6">
+        <section id="dashboard" class="section">
+            <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 bg-white rounded shadow">Total Registered Companies: <span class="font-semibold" id="statCompanies">0</span></div>
+                <div class="p-4 bg-white rounded shadow">Total Outlets: <span class="font-semibold" id="statOutlets">0</span></div>
+                <div class="p-4 bg-white rounded shadow">Active Tools: <span class="font-semibold" id="statTools">0</span></div>
+            </div>
+            <div class="mt-6">
+                <h2 class="font-semibold mb-2">Recent Activity</h2>
+                <ul id="activityFeed" class="bg-white p-4 rounded shadow space-y-2"></ul>
+            </div>
+        </section>
+        <section id="tools" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Tools</h1>
+            <table class="min-w-full bg-white rounded shadow" id="toolTable">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 text-left">Tool</th>
+                        <th class="px-4 py-2 text-left">Status</th>
+                        <th class="px-4 py-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">Food Menu</td>
+                        <td class="border px-4 py-2" id="tool-food-status">Inactive</td>
+                        <td class="border px-4 py-2 text-center"><button class="bg-blue-600 text-white px-2 py-1 rounded" onclick="toggleTool('food')">Toggle</button></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">Bar Menu</td>
+                        <td class="border px-4 py-2" id="tool-bar-status">Inactive</td>
+                        <td class="border px-4 py-2 text-center"><button class="bg-blue-600 text-white px-2 py-1 rounded" onclick="toggleTool('bar')">Toggle</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="companies" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Companies</h1>
+            <div class="mb-4">
+                <form id="companyForm" class="space-y-2 bg-white p-4 rounded shadow max-w-md">
+                    <div>
+                        <label class="block">Name</label>
+                        <input type="text" name="name" class="w-full border p-2" required>
+                    </div>
+                    <div>
+                        <label class="block">Description</label>
+                        <input type="text" name="desc" class="w-full border p-2">
+                    </div>
+                    <div>
+                        <label class="block">Email</label>
+                        <input type="email" name="email" class="w-full border p-2" required>
+                    </div>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Add Company</button>
+                </form>
+            </div>
+            <table class="min-w-full bg-white rounded shadow" id="companyTable">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 text-left">Name</th>
+                        <th class="px-4 py-2 text-left">Email</th>
+                        <th class="px-4 py-2 text-left">Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+        <section id="addOutlet" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Add Outlet</h1>
+            <form id="outletForm" class="space-y-2 bg-white p-4 rounded shadow max-w-md">
+                <div>
+                    <label class="block">Outlet Name</label>
+                    <input type="text" name="outletName" class="w-full border p-2" required>
+                </div>
+                <div>
+                    <label class="block">Contact Email</label>
+                    <input type="email" name="outletEmail" class="w-full border p-2" required>
+                </div>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Add Outlet</button>
+            </form>
+        </section>
+        <section id="listOutlet" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Outlets</h1>
+            <table class="min-w-full bg-white rounded shadow" id="outletTable">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 text-left">Name</th>
+                        <th class="px-4 py-2 text-left">Email</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+        <section id="profile" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Profile Information</h1>
+            <p class="bg-white p-4 rounded shadow">Admin profile details here.</p>
+        </section>
+        <section id="changePassword" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Change Password</h1>
+            <p class="bg-white p-4 rounded shadow">Password form goes here.</p>
+        </section>
+        <section id="logout" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Logout</h1>
+            <p class="bg-white p-4 rounded shadow">Logging out...</p>
+        </section>
+    </main>
+</div>
+<script>
+// simple navigation handler
+const buttons = document.querySelectorAll('#sidebar button');
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+        document.getElementById(btn.dataset.section).classList.remove('hidden');
+    });
+});
+
+// sample data
+let toolStatus = { food: false, bar: false };
+function toggleTool(tool) {
+    toolStatus[tool] = !toolStatus[tool];
+    document.getElementById(`tool-${tool}-status`).textContent = toolStatus[tool] ? 'Active' : 'Inactive';
+}
+
+const companies = [];
+const companyForm = document.getElementById('companyForm');
+companyForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = new FormData(companyForm);
+    const company = { name: data.get('name'), desc: data.get('desc'), email: data.get('email'), status: 'Active' };
+    companies.push(company);
+    companyForm.reset();
+    renderCompanies();
+});
+function renderCompanies() {
+    const tbody = document.querySelector('#companyTable tbody');
+    tbody.innerHTML = '';
+    companies.forEach(c => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td class="border px-4 py-2">${c.name}</td><td class="border px-4 py-2">${c.email}</td><td class="border px-4 py-2">${c.status}</td>`;
+        tbody.appendChild(row);
+    });
+    document.getElementById('statCompanies').textContent = companies.length;
+}
+
+const outlets = [];
+const outletForm = document.getElementById('outletForm');
+outletForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = new FormData(outletForm);
+    const outlet = { name: data.get('outletName'), email: data.get('outletEmail') };
+    outlets.push(outlet);
+    outletForm.reset();
+    renderOutlets();
+});
+function renderOutlets() {
+    const tbody = document.querySelector('#outletTable tbody');
+    tbody.innerHTML = '';
+    outlets.forEach(o => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td class="border px-4 py-2">${o.name}</td><td class="border px-4 py-2">${o.email}</td>`;
+        tbody.appendChild(row);
+    });
+    document.getElementById('statOutlets').textContent = outlets.length;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlet Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div class="flex min-h-screen">
+    <aside class="w-64 bg-gray-800 text-white flex-shrink-0">
+        <div class="p-4 text-2xl font-bold">Outlet</div>
+        <nav>
+            <ul class="space-y-1" id="sidebar">
+                <li><button data-section="dashboard" class="w-full text-left px-4 py-2 hover:bg-gray-700">Dashboard</button></li>
+                <li><button data-section="baseTools" class="w-full text-left px-4 py-2 hover:bg-gray-700">Tools Meta Data</button></li>
+                <li><button data-section="outlets" class="w-full text-left px-4 py-2 hover:bg-gray-700">Outlets</button></li>
+                <li>
+                    <div class="px-4 py-2 font-semibold">Other</div>
+                    <ul class="ml-4 space-y-1">
+                        <li><button data-section="changePassword" class="w-full text-left px-4 py-2 hover:bg-gray-700">Change Password</button></li>
+                        <li><button data-section="manageProfile" class="w-full text-left px-4 py-2 hover:bg-gray-700">Manage Profile</button></li>
+                        <li><button data-section="logout" class="w-full text-left px-4 py-2 hover:bg-gray-700">Logout</button></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="flex-1 p-6 space-y-6">
+        <section id="dashboard" class="section">
+            <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 bg-white rounded shadow">Total Outlets: <span class="font-semibold" id="statOutlets">0</span></div>
+                <div class="p-4 bg-white rounded shadow">Total Dishes: <span class="font-semibold" id="statDishes">0</span></div>
+                <div class="p-4 bg-white rounded shadow">Total Drinks: <span class="font-semibold" id="statDrinks">0</span></div>
+            </div>
+        </section>
+        <section id="baseTools" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Tools Meta Data</h1>
+            <p class="bg-white p-4 rounded shadow mb-4">Here you can manage dish and drink library.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h2 class="font-semibold mb-2">Dish Library</h2>
+                    <ul id="dishList" class="bg-white p-2 rounded shadow min-h-[150px]"></ul>
+                </div>
+                <div>
+                    <h2 class="font-semibold mb-2">Drink Library</h2>
+                    <ul id="drinkList" class="bg-white p-2 rounded shadow min-h-[150px]"></ul>
+                </div>
+            </div>
+        </section>
+        <section id="outlets" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Outlets</h1>
+            <ul id="outletList" class="space-y-2"></ul>
+        </section>
+        <section id="changePassword" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Change Password</h1>
+            <p class="bg-white p-4 rounded shadow">Password form goes here.</p>
+        </section>
+        <section id="manageProfile" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Manage Profile</h1>
+            <p class="bg-white p-4 rounded shadow">Profile form goes here.</p>
+        </section>
+        <section id="logout" class="section hidden">
+            <h1 class="text-2xl font-bold mb-4">Logout</h1>
+            <p class="bg-white p-4 rounded shadow">Logging out...</p>
+        </section>
+    </main>
+</div>
+<script>
+const buttons = document.querySelectorAll('#sidebar button');
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+        document.getElementById(btn.dataset.section).classList.remove('hidden');
+    });
+});
+
+const dishes = [];
+const drinks = [];
+const outlets = [];
+function renderLists() {
+    const dishList = document.getElementById('dishList');
+    dishList.innerHTML = dishes.map(d => `<li class='border-b p-1'>${d}</li>`).join('');
+    const drinkList = document.getElementById('drinkList');
+    drinkList.innerHTML = drinks.map(d => `<li class='border-b p-1'>${d}</li>`).join('');
+    const outletList = document.getElementById('outletList');
+    outletList.innerHTML = outlets.map(o => `<li class='bg-white p-2 rounded shadow'>${o}</li>`).join('');
+    document.getElementById('statOutlets').textContent = outlets.length;
+    document.getElementById('statDishes').textContent = dishes.length;
+    document.getElementById('statDrinks').textContent = drinks.length;
+}
+// sample data for demo
+['Pizza','Burger'].forEach(d=>dishes.push(d));
+['Coke','Wine'].forEach(d=>drinks.push(d));
+['Mimas','Dione'].forEach(o=>outlets.push(o));
+renderLists();
+</script>
+</body>
+</html>
