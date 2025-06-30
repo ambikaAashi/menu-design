@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Design</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <div class="container mx-auto py-6">
+        <h1 class="text-2xl font-bold mb-4">Menu &amp; Dishes Management</h1>
+        <div>
+            <nav class="mb-6">
+                <ul class="flex space-x-4" id="tabs">
+                    <li><button data-tab="dishes" class="px-4 py-2 bg-blue-600 text-white rounded">Dishes</button></li>
+                    <li><button data-tab="menus" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Menus</button></li>
+                </ul>
+            </nav>
+            <div id="dishes" class="tab-content">
+                <h2 class="text-xl font-semibold mb-2">Add Dish</h2>
+                <form id="dishForm" class="space-y-4">
+                    <div>
+                        <label class="block">Dish Name</label>
+                        <input type="text" name="dishName" class="w-full border p-2">
+                    </div>
+                    <div>
+                        <label class="block">Cuisine Type</label>
+                        <select name="cuisine" class="w-full border p-2">
+                            <option>Indian</option>
+                            <option>Italian/Continental</option>
+                            <option>Chinese</option>
+                            <option>North Indian</option>
+                            <option>South Indian</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block">Category</label>
+                        <select name="category" class="w-full border p-2">
+                            <option>Starter</option>
+                            <option>Main Course</option>
+                            <option>Dessert</option>
+                            <option>Beverage</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block">Sale Price</label>
+                        <input type="number" name="price" class="w-full border p-2" step="0.01">
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" name="vegetarian" class="mr-2"> Vegetarian
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="available" class="mr-2" checked> Available
+                        </label>
+                    </div>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Add Dish</button>
+                </form>
+
+                <h2 class="text-xl font-semibold my-4">Dish Library</h2>
+                <table class="min-w-full bg-white" id="dishTable">
+                    <thead>
+                        <tr>
+                            <th class="border px-4 py-2">Name</th>
+                            <th class="border px-4 py-2">Cuisine</th>
+                            <th class="border px-4 py-2">Category</th>
+                            <th class="border px-4 py-2">Price</th>
+                            <th class="border px-4 py-2">Vegetarian</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="menus" class="tab-content hidden">
+                <h2 class="text-xl font-semibold mb-2">Create Menu</h2>
+                <form id="menuForm" class="space-y-4">
+                    <div>
+                        <label class="block">Menu Name</label>
+                        <input type="text" name="menuName" class="w-full border p-2">
+                    </div>
+                    <div>
+                        <label class="block">Menu Type</label>
+                        <select name="menuType" class="w-full border p-2">
+                            <option>Dine-in</option>
+                            <option>Takeaway</option>
+                            <option>Delivery</option>
+                            <option>Bar</option>
+                            <option>Seasonal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="flex items-center"><input type="checkbox" name="defaultMenu" class="mr-2"> Default Menu</label>
+                    </div>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Add Menu</button>
+                </form>
+
+                <h2 class="text-xl font-semibold my-4">Menus</h2>
+                <div id="menuList" class="space-y-2">
+                    <!-- menu items inserted here -->
+                </div>
+
+                <h2 class="text-xl font-semibold my-4">Assign Dishes to Menu</h2>
+                <div class="flex space-x-6">
+                    <div class="w-1/2">
+                        <h3 class="font-semibold">Dish Library</h3>
+                        <ul id="assignDishList" class="border min-h-[200px] p-2"></ul>
+                    </div>
+                    <div class="w-1/2">
+                        <h3 class="font-semibold">Menu Dishes (Drag to Sort)</h3>
+                        <ul id="menuDishList" class="border min-h-[200px] p-2"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
